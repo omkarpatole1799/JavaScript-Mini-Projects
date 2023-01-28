@@ -55,6 +55,20 @@ function switchPlayer() {
     player1.classList.toggle('player--active')
     life = 3
     lifeElement.textContent = "Health: " + life
+    checkWinner()
+}
+
+function checkWinner() {
+    if (scores[currentPlayer] >= 30) {
+        isPlaying = false
+        diceImage.classList.add('hidden')
+        document.querySelector(`.player--${currentPlayer}`)
+            .classList.remove('player--active')
+        document.querySelector(`.player--${currentPlayer}`)
+            .classList.add("player--winner")
+    } else {
+        switchPlayer()
+    }
 }
 
 // rolling dice
@@ -101,16 +115,7 @@ holdBtn.addEventListener("click", function () {
         document.getElementById(`score--${currentPlayer}`)
             .textContent = scores[currentPlayer]
 
-        if (scores[currentPlayer] >= 30) {
-            isPlaying = false
-            diceImage.classList.add('hidden')
-            document.querySelector(`.player--${currentPlayer}`)
-                .classList.remove('player--active')
-            document.querySelector(`.player--${currentPlayer}`)
-                .classList.add("player--winner")
-        } else {
-            switchPlayer()
-        }
+        checkWinner()
     }
 })
 
