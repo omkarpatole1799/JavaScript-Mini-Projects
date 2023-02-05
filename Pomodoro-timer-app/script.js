@@ -6,7 +6,7 @@ let startBtn = document.querySelector('.startBtn')
 let pauseBtn = document.querySelector('.pauseBtn')
 let playBtn = document.querySelector('.playBtn')
 let resetBtn = document.querySelector('.resetBtn')
-let settingBtn = document.querySelector('.  ')
+let settingBtn = document.querySelector('.settingBtn')
 
 // model elements select
 let modal = document.querySelector('.modal')
