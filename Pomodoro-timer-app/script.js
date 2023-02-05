@@ -22,6 +22,9 @@ const timeSubmitBtn = document.querySelector('.time-submit-btn')
 const pomodoroBtn = document.querySelector('.pomodoro-btn')
 const breakBtn = document.querySelector('.break-btn')
 
+let pomodoroBtnClicked = false
+let breakBtnClicked = false
+
 let seconds
 let interval
 let breakInterval
@@ -30,6 +33,8 @@ let minutes
 
 function initialConditionPomodoro() {
   isPaused = false
+  pomodoroBtnClicked = true
+  breakBtnClicked = false
   minutes = 25
   minuteElement.innerHTML = '25:'
   secondElement.innerHTML = '00'
@@ -62,6 +67,8 @@ function timer() {
 
 function initialConditionBreak() {
   isPaused = false
+  pomodoroBtnClicked = false
+  breakBtnClicked = true
   minutes = 5
   minuteElement.innerHTML = '05:'
   secondElement.innerHTML = '00'
@@ -78,7 +85,7 @@ function breakTimer() {
   setInterval(() => {
     if (!isPaused) {
       seconds--
-      minuteElement.innerHTML = Math.trunc(seconds / 60) + ':'
+      minuteElement.innerHTML = '0' + Math.trunc(seconds / 60) + ':'
       secondElement.innerHTML = seconds % 60
       console.log(`${Math.trunc(seconds / 60)}: ${seconds % 60}`)
     }
@@ -112,7 +119,11 @@ playBtn.addEventListener('click', function () {
 })
 
 resetBtn.addEventListener('click', function () {
-  initialConditionBreak()
+  if (pomodoroBtnClicked) {
+    initialConditionPomodoro()
+  } else if (breakBtnClicked) {
+    initialConditionBreak()
+  }
 })
 
 // settings model show hide
@@ -154,11 +165,12 @@ timeSubmitBtn.addEventListener('click', function () {
   hideSettings()
 })
 
-// pomodoro btn and break btn
-
+// pomodoro btn
 pomodoroBtn.addEventListener('click', function () {
   initialConditionPomodoro()
 })
+
+// break btn
 breakBtn.addEventListener('click', function () {
   isPaused = false
   initialConditionBreak()
