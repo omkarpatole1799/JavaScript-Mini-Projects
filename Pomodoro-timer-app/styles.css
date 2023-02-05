@@ -1,0 +1,138 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+body {
+  /* background-color: #6096b4; */
+  background-color: #567189;
+}
+.heading {
+  font-size: 1.2rem;
+}
+.timer {
+  display: flex;
+  flex-direction: row;
+}
+
+.minutes,
+.seconds {
+  font-size: 5rem;
+  color: rgb(236, 213, 213);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  /* background-color: #93bfcf; */
+  background-color: #7b8fa1;
+  margin: 5rem;
+  align-items: center;
+  border-radius: 10px;
+}
+.getTime {
+  display: flex;
+  flex-direction: row;
+}
+
+.button {
+  background-color: #bdcdd6;
+  font-size: 1.5rem;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.button:hover {
+  background-color: black;
+  color: rgb(236, 213, 213);
+}
+
+.time-buttons {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.time-buttons:hover {
+  background-color: black;
+  color: rgb(236, 213, 213);
+}
+
+.navbar>.time-buttons{
+    background-color: #7b8fa1;
+    border: none;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+}
+.hidden {
+  display: none;
+}
+.select-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-options {
+  display: flex;
+  flex-direction: row;
+}
+
+.selected {
+  color: #283942;
+  background-color: #bdcdd6;
+}
+
+/* model css */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+
+  background-color: white;
+  padding: 6rem;
+  border-radius: 5px;
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.show-modal {
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 1.75rem 3.5rem;
+  margin: 5rem 2rem;
+  border: none;
+  background-color: #fff;
+  color: #444;
+  border-radius: 10rem;
+  cursor: pointer;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 5rem;
+  color: #333;
+  cursor: pointer;
+  border: none;
+  background: none;
+}

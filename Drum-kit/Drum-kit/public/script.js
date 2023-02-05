@@ -56,4 +56,3 @@ function buttonAnimation(key){
         pressedButton.classList.remove("pressed")
     },50)
 }
-
