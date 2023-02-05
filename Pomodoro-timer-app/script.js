@@ -31,6 +31,7 @@ let breakInterval
 let isPaused = false
 let minutes
 
+// initial conditions for pomodoro timer
 function initialConditionPomodoro() {
   isPaused = false
   pomodoroBtnClicked = true
@@ -47,6 +48,7 @@ function initialConditionPomodoro() {
 }
 initialConditionPomodoro()
 
+// main pomodoro timer function
 function timer() {
   seconds = minutes * 60
   interval = setInterval(() => {
@@ -65,6 +67,7 @@ function timer() {
   }, 1500000)
 }
 
+// initial condition for 5min break
 function initialConditionBreak() {
   isPaused = false
   pomodoroBtnClicked = false
@@ -80,6 +83,7 @@ function initialConditionBreak() {
   resetBtn.classList.add('hidden')
 }
 
+// main break time function
 function breakTimer() {
   seconds = minutes * 60
   setInterval(() => {
@@ -92,16 +96,17 @@ function breakTimer() {
   }, 1000)
 }
 
+// start button function
 startBtn.addEventListener('click', function () {
   startBtn.classList.add('hidden')
   pauseBtn.classList.remove('hidden')
   playBtn.classList.add('hidden')
   resetBtn.classList.remove('hidden')
-
   isPaused = false
   timer()
 })
 
+// pause button function
 pauseBtn.addEventListener('click', function () {
   startBtn.classList.add('hidden')
   playBtn.classList.remove('hidden')
@@ -110,6 +115,7 @@ pauseBtn.addEventListener('click', function () {
   isPaused = true
 })
 
+// resume button function
 playBtn.addEventListener('click', function () {
   startBtn.classList.add('hidden')
   playBtn.classList.add('hidden')
@@ -118,6 +124,7 @@ playBtn.addEventListener('click', function () {
   isPaused = false
 })
 
+// reset button function
 resetBtn.addEventListener('click', function () {
   if (pomodoroBtnClicked) {
     initialConditionPomodoro()
@@ -126,20 +133,21 @@ resetBtn.addEventListener('click', function () {
   }
 })
 
-// settings model show hide
+// show setting function
 function showSettings() {
   modal.classList.remove('hidden')
   overlay.classList.remove('hidden')
 }
+
+// hide setting function
 function hideSettings() {
   modal.classList.add('hidden')
   overlay.classList.add('hidden')
 }
 
+// functions related to setting menu
 settingBtn.addEventListener('click', showSettings)
-
 closeModal.addEventListener('click', hideSettings)
-
 overlay.addEventListener('click', hideSettings)
 
 // taking input according to model input
@@ -154,6 +162,7 @@ function selectTime50() {
 time25.addEventListener('click', selectTime25)
 time50.addEventListener('click', selectTime50)
 
+// selecting time either 25 or 50 in setting menu
 timeSubmitBtn.addEventListener('click', function () {
   if (time25.classList.contains('selected')) {
     minutes = time25.value
