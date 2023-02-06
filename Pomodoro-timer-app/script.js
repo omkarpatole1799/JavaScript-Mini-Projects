@@ -28,6 +28,7 @@ let breakBtnClicked = false
 let seconds
 let interval
 let breakInterval
+let pauseAnimationInterval
 let isPaused = false
 let minutes
 
@@ -40,11 +41,17 @@ function initialConditionPomodoro() {
   minuteElement.innerHTML = '25:'
   secondElement.innerHTML = '00'
   clearTimeout(interval)
-
+  clearInterval(pauseAnimationInterval)
   startBtn.classList.remove('hidden')
   playBtn.classList.add('hidden')
   pauseBtn.classList.add('hidden')
   resetBtn.classList.add('hidden')
+  pomodoroBtn.classList.add('active')
+  breakBtn.classList.remove('active')
+
+  // removing the animate class
+  minuteElement.classList.remove('animateTimer')
+  secondElement.classList.remove('animateTimer')
 }
 initialConditionPomodoro()
 
@@ -76,11 +83,17 @@ function initialConditionBreak() {
   minuteElement.innerHTML = '05:'
   secondElement.innerHTML = '00'
   clearTimeout(interval)
-
+  clearInterval(pauseAnimationInterval)
   startBtn.classList.remove('hidden')
   playBtn.classList.add('hidden')
   pauseBtn.classList.add('hidden')
   resetBtn.classList.add('hidden')
+  pomodoroBtn.classList.remove('active')
+  breakBtn.classList.add('active')
+
+  // removing the animate class
+  minuteElement.classList.remove('animateTimer')
+  secondElement.classList.remove('animateTimer')
 }
 
 // main break time function
@@ -94,6 +107,14 @@ function breakTimer() {
       console.log(`${Math.trunc(seconds / 60)}: ${seconds % 60}`)
     }
   }, 1000)
+}
+
+// when paused animation
+function pausedAnimation() {
+  pauseAnimationInterval = setInterval(() => {
+    minuteElement.classList.toggle('animateTimer')
+    secondElement.classList.toggle('animateTimer')
+  }, 500)
 }
 
 // start button function
@@ -113,6 +134,7 @@ pauseBtn.addEventListener('click', function () {
   pauseBtn.classList.add('hidden')
   resetBtn.classList.remove('hidden')
   isPaused = true
+  pausedAnimation()
 })
 
 // resume button function
@@ -122,6 +144,7 @@ playBtn.addEventListener('click', function () {
   pauseBtn.classList.remove('hidden')
   resetBtn.classList.remove('hidden')
   isPaused = false
+  clearInterval(pauseAnimationInterval)
 })
 
 // reset button function
