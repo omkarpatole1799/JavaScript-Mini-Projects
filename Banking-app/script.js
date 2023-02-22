@@ -4,6 +4,7 @@
 const account1 = {
   owner: "Omkar Patole",
   movements: [22, 12, -40, 233, 500, -90, 66, 22, -99, 1000, -6, -30, 225, 633],
+  // movements: [10, -5, 10],
   interestRate: 1.22,
   password: 1111,
 };
@@ -50,7 +51,7 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-//
+// display movements in list
 const displayMovements = function (movements) {
   containerMovements.innerHTML = "";
   movements.forEach(function (movement, i) {
@@ -61,7 +62,7 @@ const displayMovements = function (movements) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     }: ${type}</div>
-        <div class="movements__value">${movement}</div>
+        <div class="movements__value">${movement} EUR</div>
     </div>`;
 
     // this inserts adjacent html in the container
@@ -69,62 +70,6 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
-
-// calculating user names for each account
-// method 1
-// const userName = accounts.map((account) => {
-//   const accountNameInArr = account.owner.toLowerCase().split(" ");
-
-//   const ownerInitial = accountNameInArr.map((ownerName) => {
-//     return ownerName.at(0);
-//   });
-//   return ownerInitial.join("");
-// });
-
-// accounts.forEach(function (account, i) {
-//   account.userName = userName[i];
-// });
-// console.log("+++++++++++++++++++++");
-
-// creating user names for accounts
-// method 2
-// push the created user names in to each acccount object
-
-// function createUserName(accounts) {
-//   accounts.forEach(function (account) {
-//     account.userName = account.owner
-//       .toLowerCase()
-//       .split(" ")
-//       .map((word) => {
-//         return word.at(0);
-//       })
-//       .join("");
-//   });
-// }
-// createUserName(accounts);
-// console.log(accounts);
-
-// console.log("+++++++++++++++++++++");
-
-// calculating user names for each account
-// method 3
-// const userName = accounts.map((account) => {
-//   const ownerInitial = account.owner
-//     .toLowerCase()
-//     .split(" ")
-//     .map((ownerName) => {
-//       return ownerName.at(0);
-//     });
-//   return ownerInitial.join("");
-// });
-// console.log(userName);
-
-// accounts.forEach(function (account, i) {
-//   account.userName = userName[i];
-// });
-// console.log(accounts);
-
-// console.log("+++++++++++++++++++++");
 
 const userNameCreate = function (accounts) {
   accounts.forEach(function (account) {
@@ -142,4 +87,53 @@ const userNameCreate = function (accounts) {
   });
 };
 userNameCreate(accounts);
-console.log(accounts);
+
+// display balance of the user
+const displayBalance = function (movements) {
+  labelBalance.textContent =
+    movements.reduce(function (accumulator, movement) {
+      return accumulator + movement;
+    }, 0) + " EUR";
+};
+displayBalance(account1.movements);
+
+// display summary of the account
+const eurToUsd = 1.2;
+const displaySummary = function (movements) {
+  console.log(movements);
+
+  const depositSummary = movements
+    .filter(function (movement) {
+      return movement > 0;
+    })
+    .reduce(function (accumulator, movement) {
+      return accumulator + movement;
+    }, 0);
+  labelSumIn.textContent = depositSummary + "EUR";
+
+  const withdrawalSummary = movements
+    .filter(function (movement) {
+      return movement < 0;
+    })
+    .reduce(function (accumulator, movement) {
+      return accumulator + movement;
+    });
+  labelSumOut.textContent = withdrawalSummary + "EUR";
+
+  const interestSummary = movements
+    .filter((movement) => {
+      return movement > 0;
+    })
+    .map((movement) => {
+      return (movement * eurToUsd) / 100;
+    })
+    .filter((movement) => {
+      return movement >= 1;
+    })
+    .reduce((accumulator, movement) => {
+      return accumulator + movement;
+    });
+
+  labelSumInterest.textContent = interestSummary;
+};
+displaySummary(account1.movements);
