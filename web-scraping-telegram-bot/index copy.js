@@ -18,33 +18,6 @@ const userData = {
   },
 };
 
-bot.on("message", (message) => {
-  userId = message.from.id;
-  if (message.text.toLocaleLowerCase().includes("hi")) {
-    bot.sendMessage(userId, `Hi there ${message.from.first_name}`);
-    bot.sendMessage(userId, `What you want to know`);
-  }
-  // else {
-  //   bot.sendMessage(userId, `Wrong input`);
-  // }
-  console.log(message.text);
-});
-
-bot.on("message", (message) => {
-  if (message.text.toLocaleLowerCase().includes("price")) {
-    bot.sendMessage(userId, `ok which product, send link from amazon.com`);
-  }
-});
-
-const regexForLink =
-  /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-
-bot.on("message", (message) => {
-  if (message.text.toLocaleLowerCase().includes(regexForLink)) {
-    console.log(true);
-  }
-});
-
 bot.onText(/\/start/, (message) => {
   userId = message.from.id;
   userData.Name = message.from.first_name;
