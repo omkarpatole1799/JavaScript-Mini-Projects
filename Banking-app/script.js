@@ -5,22 +5,22 @@ const account1 = {
   owner: "Omkar Patole",
   movements: [22, 12, -40, 233, 500, -90, 66, 22, -99, 1000, -6, -30, 225, 633],
   // movements: [10, -5, 10],
-  interestRate: 1.22,
-  password: 1111,
+  interestRate: 0.9,
+  password: 1,
 };
 
 const account2 = {
   owner: "Suraj Ghodke",
   movements: [10, 21, -3, 800, -300, 287],
-  interestRate: 1.23,
-  password: 2222,
+  interestRate: 1.5,
+  password: 2,
 };
 
 const account3 = {
-  owner: "Yash Patil Patil",
+  owner: "Yash Patil",
   movements: [66, 22, -99, 1000, -6, -30, 225, 633],
-  interestRate: 1.24,
-  password: 3333,
+  interestRate: 1.9,
+  password: 3,
 };
 
 const accounts = [account1, account2, account3];
@@ -50,6 +50,16 @@ const inputTransferAmount = document.querySelector(".form__input--amount");
 const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
+const balanceDate = document.querySelector(".balance__date");
+const appMain = document.querySelector(".app");
+const date = new Date();
+
+// initial conditions
+// this function is immediately invoked function
+// this function only runs one time at starting
+(function () {
+  appMain.classList.add("opacity_zero");
+})();
 
 // display movements in list
 const displayMovements = function (movements) {
@@ -69,7 +79,6 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-displayMovements(account1.movements);
 
 const userNameCreate = function (accounts) {
   accounts.forEach(function (account) {
@@ -95,14 +104,12 @@ const displayBalance = function (movements) {
       return accumulator + movement;
     }, 0) + " EUR";
 };
-displayBalance(account1.movements);
 
 // display summary of the account
-const eurToUsd = 1.2;
-const displaySummary = function (movements) {
-  console.log(movements);
 
-  const depositSummary = movements
+const displaySummary = function (account) {
+  // display deposit
+  const depositSummary = account.movements
     .filter(function (movement) {
       return movement > 0;
     })
@@ -111,7 +118,8 @@ const displaySummary = function (movements) {
     }, 0);
   labelSumIn.textContent = depositSummary + "EUR";
 
-  const withdrawalSummary = movements
+  // display withdrawal
+  const withdrawalSummary = account.movements
     .filter(function (movement) {
       return movement < 0;
     })
@@ -120,12 +128,13 @@ const displaySummary = function (movements) {
     });
   labelSumOut.textContent = withdrawalSummary + "EUR";
 
-  const interestSummary = movements
+  // display interest
+  const interestSummary = account.movements
     .filter((movement) => {
       return movement > 0;
     })
     .map((movement) => {
-      return (movement * eurToUsd) / 100;
+      return (movement * account.interestRate) / 100;
     })
     .filter((movement) => {
       return movement >= 1;
@@ -136,4 +145,27 @@ const displaySummary = function (movements) {
 
   labelSumInterest.textContent = interestSummary;
 };
-displaySummary(account1.movements);
+
+let currentUser;
+// login on button click
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // get the values from input field
+  currentUser = accounts.find((account) => {
+    return account.userName === inputLoginUsername.value;
+  });
+
+  // also check if pin is correct and the login
+  if (currentUser.password === Number(inputLoginPin.value)) {
+    appMain.classList.remove("opacity_zero");
+    displayBalance(currentUser.movements);
+    displayMovements(currentUser.movements);
+    displaySummary(currentUser);
+    labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
+    balanceDate.textContent = `
+    As of ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+  } else {
+    alert("Wrong info");
+  }
+});
