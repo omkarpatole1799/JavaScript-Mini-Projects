@@ -8,70 +8,6 @@ const bot = new telegramBot(tocken, { polling: true });
 let userId;
 let userPrice;
 
-// data of user
-const userData = {
-  Name: "",
-  Price: Number(""),
-  products: {
-    Link1: "",
-    Link2: "",
-  },
-};
-
-bot.on("message", (message) => {
-  userId = message.from.id;
-  if (message.text.toLocaleLowerCase().includes("hi")) {
-    bot.sendMessage(userId, `Hi there ${message.from.first_name}`);
-    bot.sendMessage(userId, `What you want to know`);
-  }
-  // else {
-  //   bot.sendMessage(userId, `Wrong input`);
-  // }
-  console.log(message.text);
-});
-
-bot.on("message", (message) => {
-  if (message.text.toLocaleLowerCase().includes("price")) {
-    bot.sendMessage(userId, `ok which product, send link from amazon.com`);
-  }
-});
-
-const regexForLink =
-  /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-
-bot.on("message", (message) => {
-  if (message.text.toLocaleLowerCase().includes(regexForLink)) {
-    console.log(true);
-  }
-});
-
-bot.onText(/\/start/, (message) => {
-  userId = message.from.id;
-  userData.Name = message.from.first_name;
-  console.log(userData.Name);
-  bot.sendMessage(userId, `Welcome! ${message.from.first_name}`);
-  bot.sendMessage(
-    userId,
-    " Get started   : 1. use /priceTag [your price choice]  \
-                                            \n 2. use /price [product URL]to get Price "
-  );
-});
-
-bot.onText(/\/priceTag (.+)/, (message, priceTag) => {
-  userPrice = priceTag[1];
-  console.log(userPrice);
-});
-
-bot.onText(/\/price (.+)/, (message, URL) => {
-  userId = message.from.id;
-  let msgTxt = message.text;
-  const productLink = URL[1];
-
-  console.log(msgTxt, productLink, URL[2]);
-  console.log(URL);
-  checkPrice(productLink);
-});
-
 // check price function
 async function checkPrice(productLink) {
   await bot.sendMessage(userId, "Beep Boop, wait a second");
@@ -95,3 +31,29 @@ async function checkPrice(productLink) {
 
   browser.close();
 }
+
+// text
+bot.on("message", (msg) => {
+  userId = msg.from.id;
+  let userMessage = msg.text.toLowerCase();
+  if (userMessage.includes("hi") || userMessage.includes("hello")) {
+    bot.sendMessage(
+      userId,
+      "Hello there, send me product link and I'll keep an eye on the pricing."
+    );
+    bot.sendMessage(
+      userId,
+      "First send me pricing of the product and then send product link"
+    );
+  } else if (userMessage.includes("price")) {
+    bot.sendMessage(
+      userId,
+      "OK, first send the price you want to buy product on"
+    );
+  } else if (userMessage.includes(/^[0-9]+$/)){
+    console.log("number");
+  }
+    else {
+    bot.sendMessage(userId, "Wrong input");
+  }
+});
