@@ -223,8 +223,6 @@ btnClose.addEventListener("click", function (e) {
     inputCloseUsername.value === currentUser.userName &&
     Number(inputClosePin.value) === currentUser.password
   ) {
-    console.log("TRUE");
-
     const index = accounts.findIndex(
       (account) => inputCloseUsername.value === currentUser.userName
     );
