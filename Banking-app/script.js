@@ -98,11 +98,12 @@ const userNameCreate = function (accounts) {
 userNameCreate(accounts);
 
 // display balance of the user
-const displayBalance = function (movements) {
-  labelBalance.textContent =
-    movements.reduce(function (accumulator, movement) {
-      return accumulator + movement;
-    }, 0) + " EUR";
+const displayBalance = function (account) {
+  account.balance = account.movements.reduce(function (accumulator, movement) {
+    return accumulator + movement;
+  }, 0);
+
+  labelBalance.textContent = account.balance + " EUR";
 };
 
 // display summary of the account
@@ -170,6 +171,13 @@ const displaySummary = function (account) {
 //   }
 // });
 
+// display UI function
+function displayUI(account) {
+  displayMovements(account.movements);
+  displayBalance(account);
+  displaySummary(account);
+}
+
 let currentUser;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -179,11 +187,31 @@ btnLogin.addEventListener("click", function (e) {
   if (currentUser?.password === Number(inputLoginPin.value)) {
     console.log("LOGIN");
     appMain.classList.remove("opacity_zero");
-    displayBalance(currentUser.movements);
-    displayMovements(currentUser.movements);
-    displaySummary(currentUser);
     labelWelcome.textContent = `Welcome ${currentUser.owner}`;
+    displayUI(currentUser);
   } else {
     alert("Invalid credentials");
+  }
+});
+
+// transfer money
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const sendingAmount = Number(inputTransferAmount.value);
+  const reciverAccount = accounts.find((account) => {
+    return account.userName === inputTransferTo.value;
+  });
+
+  if (
+    reciverAccount &&
+    currentUser.balance >= sendingAmount &&
+    sendingAmount > 0 &&
+    reciverAccount.userName !== currentUser.userName
+  ) {
+    currentUser.movements.push(-sendingAmount);
+    reciverAccount.movements.push(sendingAmount);
+    displayUI(currentUser);
+  } else {
+    alert("Wrong Info");
   }
 });
