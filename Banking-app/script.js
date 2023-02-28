@@ -146,26 +146,44 @@ const displaySummary = function (account) {
   labelSumInterest.textContent = interestSummary;
 };
 
+// let currentUser;
+// // login on button click
+// btnLogin.addEventListener("click", function (e) {
+//   e.preventDefault();
+
+//   // get the values from input field
+//   currentUser = accounts.find((account) => {
+//     return account.userName === inputLoginUsername.value;
+//   });
+
+//   // also check if pin is correct and the login
+//   if (currentUser.password === Number(inputLoginPin.value)) {
+//     appMain.classList.remove("opacity_zero");
+//     displayBalance(currentUser.movements);
+//     displayMovements(currentUser.movements);
+//     displaySummary(currentUser);
+//     labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
+//     balanceDate.textContent = `
+//     As of ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+//   } else {
+//     alert("Wrong info");
+//   }
+// });
+
 let currentUser;
-// login on button click
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
-
-  // get the values from input field
   currentUser = accounts.find((account) => {
     return account.userName === inputLoginUsername.value;
   });
-
-  // also check if pin is correct and the login
-  if (currentUser.password === Number(inputLoginPin.value)) {
+  if (currentUser?.password === Number(inputLoginPin.value)) {
+    console.log("LOGIN");
     appMain.classList.remove("opacity_zero");
     displayBalance(currentUser.movements);
     displayMovements(currentUser.movements);
     displaySummary(currentUser);
-    labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
-    balanceDate.textContent = `
-    As of ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    labelWelcome.textContent = `Welcome ${currentUser.owner}`;
   } else {
-    alert("Wrong info");
+    alert("Invalid credentials");
   }
 });
