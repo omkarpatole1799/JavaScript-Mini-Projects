@@ -215,3 +215,23 @@ btnTransfer.addEventListener("click", function (e) {
     alert("Wrong Info");
   }
 });
+
+// delete account
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (
+    inputCloseUsername.value === currentUser.userName &&
+    Number(inputClosePin.value) === currentUser.password
+  ) {
+    console.log("TRUE");
+
+    const index = accounts.findIndex(
+      (account) => inputCloseUsername.value === currentUser.userName
+    );
+
+    accounts.splice(index, 1);
+    appMain.classList.add("opacity_zero");
+  } else {
+    alert("Wrong info");
+  }
+});
