@@ -233,3 +233,27 @@ btnClose.addEventListener("click", function (e) {
     alert("Wrong info");
   }
 });
+
+// loan functionality
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // input the loan amount
+  const loanAmount = Number(inputLoanAmount.value);
+
+  // bank only gives 10 % loan of max deposit amount
+  if (
+    loanAmount > 0 &&
+    currentUser.movements.some((movement) => {
+      return movement > loanAmount * 0.1;
+    })
+  ) {
+    // add the loan amount to the movement array of current user
+    currentUser.movements.push(loanAmount);
+
+    // update the UI
+    displayUI(currentUser);
+  } else {
+    console.log("NO loan ");
+  }
+});
