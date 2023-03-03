@@ -62,9 +62,13 @@ const date = new Date();
 })();
 
 // display movements in list
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sorting = false) {
+  const transactions = sorting
+    ? movements.slice().sort((a, b) => a - b)
+    : movements;
+
   containerMovements.innerHTML = "";
-  movements.forEach(function (movement, i) {
+  transactions.forEach(function (movement, i) {
     const type = movement > 0 ? "deposit" : "withdrawal";
 
     const html = `
@@ -256,4 +260,12 @@ btnLoan.addEventListener("click", function (e) {
   } else {
     console.log("NO loan ");
   }
+});
+
+let isSorted = false;
+// sorting the movements
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentUser.movements, !isSorted);
+  isSorted = !isSorted;
 });
