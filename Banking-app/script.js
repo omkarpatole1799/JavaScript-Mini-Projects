@@ -76,7 +76,7 @@ const displayMovements = function (movements, sorting = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     }: ${type}</div>
-        <div class="movements__value">${movement} EUR</div>
+        <div class="movements__value">${movement.toFixed(2)} EUR</div>
     </div>`;
 
     // this inserts adjacent html in the container
@@ -107,7 +107,7 @@ const displayBalance = function (account) {
     return accumulator + movement;
   }, 0);
 
-  labelBalance.textContent = account.balance + " EUR";
+  labelBalance.textContent = account.balance.toFixed(2) + " EUR";
 };
 
 // display summary of the account
@@ -121,7 +121,7 @@ const displaySummary = function (account) {
     .reduce(function (accumulator, movement) {
       return accumulator + movement;
     }, 0);
-  labelSumIn.textContent = depositSummary + "EUR";
+  labelSumIn.textContent = depositSummary.toFixed(2) + " EUR";
 
   // display withdrawal
   const withdrawalSummary = account.movements
@@ -131,7 +131,7 @@ const displaySummary = function (account) {
     .reduce(function (accumulator, movement) {
       return accumulator + movement;
     });
-  labelSumOut.textContent = withdrawalSummary + "EUR";
+  labelSumOut.textContent = withdrawalSummary.toFixed(2) + " EUR";
 
   // display interest
   const interestSummary = account.movements
@@ -148,7 +148,7 @@ const displaySummary = function (account) {
       return accumulator + movement;
     });
 
-  labelSumInterest.textContent = interestSummary;
+  labelSumInterest.textContent = interestSummary.toFixed(2) + " EUR";
 };
 
 // let currentUser;
@@ -243,7 +243,7 @@ btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
 
   // input the loan amount
-  const loanAmount = Number(inputLoanAmount.value);
+  const loanAmount = Number(Math.floor(inputLoanAmount.value));
 
   // bank only gives 10 % loan of max deposit amount
   if (
