@@ -3,57 +3,53 @@
 // data
 const account1 = {
   owner: "Omkar Patole",
-  movements: [22, 12, -40, 233, 500, -90, 66, 22, -99, 1000, -6, -30, 225, 633],
+  movements: [66, 222, -99, 1000, -6, -30, 225, 1633],
   // movements: [10, -5, 10],
   interestRate: 0.9,
   password: 1,
   movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
-    "2020-07-26T12:01:20.894Z",
+    "Sun Mar 05 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Mar 03 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 13 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 12 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 11 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 10 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
 };
 
 const account2 = {
   owner: "Suraj Ghodke",
-  movements: [10, 21, -3, 800, -300, 287],
+  movements: [66, 22, -99, 10100, -6, -30, 225, 63433],
   interestRate: 1.5,
   password: 2,
   movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
+    "Sun Mar 05 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Mar 03 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 13 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 12 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 11 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 10 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
 };
 
 const account3 = {
   owner: "Yash Patil",
-  movements: [66, 22, -99, 1000, -6, -30, 225, 633],
+  movements: [66, 22, -199, 1000, -6, -530, 22325, 633],
   interestRate: 1.9,
   password: 3,
   movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
+    "Sun Mar 05 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Mar 03 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 13 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 12 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 11 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 10 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
+    "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
 };
 
@@ -118,8 +114,37 @@ function displayUI(account) {
 }
 
 // get current time
-const currentTime = () => {
-  return new Date();
+function getCurrentTime() {
+  return String(new Date());
+}
+
+// formatted Date
+const formatedDate = (date) => {
+  console.log(account1.movementsDates);
+  console.log(date);
+  console.log(new Date());
+  const calcDaysPassed = (date1, date2) => {
+    return Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  };
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) {
+    return "Today";
+  }
+  if (daysPassed === 1) {
+    return "Yesterday";
+  }
+  if (daysPassed <= 7) {
+    return `${daysPassed} days ago`;
+  } else {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const displayFullDate = `${month}/${day}/${year}`;
+    return displayFullDate;
+  }
 };
 
 // display movements in list
@@ -129,19 +154,17 @@ const displayMovements = function (account, sorting = false) {
     : account.movements;
 
   containerMovements.innerHTML = "";
+
   transactions.forEach(function (movement, i) {
     const type = movement > 0 ? "deposit" : "withdrawal";
 
-    const date = new Date(account.movementsDates[i]);
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const displayFullDate = `${day}/${month}/${year}`;
+    const date = formatedDate(new Date(account.movementsDates[i]));
+
     const html = `<div class="movements__row">
         <div class="movements__type movements__type--${type}">
           ${i + 1}: ${type}
         </div> 
-        <div class="movements__date">${displayFullDate}</div>
+        <div class="movements__date">${date}</div>
         <div class="movements__value">${movement.toFixed(2)} EUR</div>
     </div>`;
 
@@ -212,9 +235,7 @@ btnLogin.addEventListener("click", function (e) {
 
     labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
     balanceDate.textContent = `
-    As of ${date.getFullYear()}/${
-      date.getMonth() + 1
-    }/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    As of ${formatedDate(getCurrentDate())}`;
   } else {
     alert("Invalid credentials");
   }
@@ -236,7 +257,8 @@ btnTransfer.addEventListener("click", function (e) {
   ) {
     currentUser.movements.push(-sendingAmount);
     reciverAccount.movements.push(sendingAmount);
-    currentUser.movementsDates.push(currentTime());
+    reciverAccount.movementsDates.push(getCurrentTime());
+    currentUser.movementsDates.push(getCurrentTime());
     displayUI(currentUser);
   } else {
     alert("Wrong Info");
@@ -279,7 +301,7 @@ btnLoan.addEventListener("click", function (e) {
     currentUser.movements.push(loanAmount);
 
     // also push current time to the momventsDates array
-    currentUser.movementsDates.push(currentTime());
+    currentUser.movementsDates.push(getCurrentTime());
 
     // update the UI
     displayUI(currentUser);
@@ -294,10 +316,3 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentUser.movements, !isSorted);
   isSorted = !isSorted;
 });
-
-// // always logged in for testing purpose
-// // this function is immediately invoked function
-// // this function only runs one time at starting
-// (function () {
-//   appMain.classList.add("opacity_zero");
-// })();
