@@ -18,6 +18,7 @@ const account1 = {
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
   locale: "pt-PT", // de-DE
+  currency: "USD",
 };
 
 const account2 = {
@@ -36,6 +37,7 @@ const account2 = {
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
   locale: "en-US",
+  currency: "EUR",
 };
 
 const account3 = {
@@ -54,6 +56,7 @@ const account3 = {
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
   locale: "en-US",
+  currency: "USD",
 };
 
 const accounts = [account1, account2, account3];
@@ -121,9 +124,18 @@ function getCurrentTime() {
   return String(new Date());
 }
 
-// format using intl
-function formatLocale(date, locale) {
+// format date using intl api
+function formatLocaleDate(date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
+}
+
+// format currency and movements using intl api
+function formatLocaleMoney(locale, currency, value) {
+  const options = {
+    style: "currency",
+    currency: currency,
+  };
+  return new Intl.NumberFormat(locale, options).format(value);
 }
 
 // formatted Date
@@ -148,7 +160,7 @@ const formatedDate = (date, locale) => {
     // const year = date.getFullYear();
     // const displayFullDate = `${month}/${day}/${year}`;
 
-    return formatLocale(date, currentUser.locale);
+    return formatLocaleDate(date, currentUser.locale);
   }
 };
 
@@ -173,7 +185,11 @@ const displayMovements = function (account, sorting = false) {
           ${i + 1}: ${type}
         </div> 
         <div class="movements__date">${date}</div>
-        <div class="movements__value">${movement.toFixed(2)} EUR</div>
+        <div class="movements__value">${formatLocaleMoney(
+          currentUser.locale,
+          currentUser.currency,
+          movement.toFixed(2)
+        )}</div>
     </div>`;
 
     // this inserts adjacent html in the container
@@ -187,7 +203,11 @@ const displayBalance = function (account) {
     return accumulator + movement;
   }, 0);
 
-  labelBalance.textContent = account.balance.toFixed(2) + " EUR";
+  labelBalance.textContent = formatLocaleMoney(
+    currentUser.locale,
+    currentUser.currency,
+    account.balance.toFixed(2)
+  );
 };
 
 // display summary of the account
@@ -200,7 +220,11 @@ const displaySummary = function (account) {
     .reduce(function (accumulator, movement) {
       return accumulator + movement;
     }, 0);
-  labelSumIn.textContent = depositSummary.toFixed(2) + " EUR";
+  labelSumIn.textContent = formatLocaleMoney(
+    currentUser.locale,
+    currentUser.currency,
+    depositSummary.toFixed(2)
+  );
 
   // display withdrawal
   const withdrawalSummary = account.movements
@@ -210,7 +234,11 @@ const displaySummary = function (account) {
     .reduce(function (accumulator, movement) {
       return accumulator + movement;
     });
-  labelSumOut.textContent = withdrawalSummary.toFixed(2) + " EUR";
+  labelSumOut.textContent = formatLocaleMoney(
+    currentUser.locale,
+    currentUser.currency,
+    withdrawalSummary.toFixed(2)
+  );
 
   // display interest
   const interestSummary = account.movements
@@ -227,7 +255,11 @@ const displaySummary = function (account) {
       return accumulator + movement;
     });
 
-  labelSumInterest.textContent = interestSummary.toFixed(2) + " EUR";
+  labelSumInterest.textContent = formatLocaleMoney(
+    currentUser.locale,
+    currentUser.currency,
+    interestSummary.toFixed(2)
+  );
 };
 
 btnLogin.addEventListener("click", function (e) {
@@ -243,7 +275,7 @@ btnLogin.addEventListener("click", function (e) {
 
     labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
     balanceDate.textContent = `
-    As of ${formatLocale(new Date(), currentUser.locale)}`;
+    As of ${formatLocaleDate(new Date(), currentUser.locale)}`;
   } else {
     alert("Invalid credentials");
   }
