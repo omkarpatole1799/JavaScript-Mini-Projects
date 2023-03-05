@@ -88,14 +88,14 @@ const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 const balanceDate = document.querySelector(".balance__date");
 const appMain = document.querySelector(".app");
-const date = new Date();
+
 
 let currentUser, timer;
 // initial condition
 appMain.classList.add("opacity_zero");
 // state variable
 let isSorted = false;
-// create user names
+// create usenames
 const userNameCreate = function (accounts) {
   accounts.forEach(function (account) {
     account.owner
@@ -140,7 +140,7 @@ function formatLocaleMoney(locale, currency, value) {
 }
 
 // formatted Date
-const formatedDate = (date, locale) => {
+const formatedDate = (date) => {
   const calcDaysPassed = (date1, date2) => {
     return Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   };
@@ -356,7 +356,7 @@ btnClose.addEventListener("click", function (e) {
     Number(inputClosePin.value) === currentUser.password
   ) {
     const index = accounts.findIndex(
-      (account) => inputCloseUsername.value === currentUser.userName
+      () => inputCloseUsername.value === currentUser.userName
     );
 
     accounts.splice(index, 1);
