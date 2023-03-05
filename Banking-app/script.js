@@ -405,3 +405,5 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentUser.movements, !isSorted);
   isSorted = !isSorted;
 });
+
+console.log("HI");
