@@ -17,6 +17,7 @@ const account1 = {
     "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
+  locale: "pt-PT", // de-DE
 };
 
 const account2 = {
@@ -34,6 +35,7 @@ const account2 = {
     "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
+  locale: "en-US",
 };
 
 const account3 = {
@@ -51,6 +53,7 @@ const account3 = {
     "Sun Feb 09 2023 13:09:20 GMT+0530 (India Standard Time)",
     "Sun Feb 08 2023 13:09:20 GMT+0530 (India Standard Time)",
   ],
+  locale: "en-US",
 };
 
 const accounts = [account1, account2, account3];
@@ -118,17 +121,18 @@ function getCurrentTime() {
   return String(new Date());
 }
 
+// format using intl
+function formatLocale(date, locale) {
+  return new Intl.DateTimeFormat(locale).format(date);
+}
+
 // formatted Date
-const formatedDate = (date) => {
-  console.log(account1.movementsDates);
-  console.log(date);
-  console.log(new Date());
+const formatedDate = (date, locale) => {
   const calcDaysPassed = (date1, date2) => {
     return Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   };
 
-  const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
+  const daysPassed = calcDaysPassed(getCurrentTime(), date);
 
   if (daysPassed === 0) {
     return "Today";
@@ -139,11 +143,12 @@ const formatedDate = (date) => {
   if (daysPassed <= 7) {
     return `${daysPassed} days ago`;
   } else {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const displayFullDate = `${month}/${day}/${year}`;
-    return displayFullDate;
+    // const day = date.getDate();
+    // const month = date.getMonth() + 1;
+    // const year = date.getFullYear();
+    // const displayFullDate = `${month}/${day}/${year}`;
+
+    return formatLocale(date, currentUser.locale);
   }
 };
 
@@ -158,7 +163,10 @@ const displayMovements = function (account, sorting = false) {
   transactions.forEach(function (movement, i) {
     const type = movement > 0 ? "deposit" : "withdrawal";
 
-    const date = formatedDate(new Date(account.movementsDates[i]));
+    const date = formatedDate(
+      new Date(account.movementsDates[i]),
+      currentUser.locale
+    );
 
     const html = `<div class="movements__row">
         <div class="movements__type movements__type--${type}">
@@ -235,7 +243,7 @@ btnLogin.addEventListener("click", function (e) {
 
     labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
     balanceDate.textContent = `
-    As of ${formatedDate(getCurrentDate())}`;
+    As of ${formatLocale(new Date(), currentUser.locale)}`;
   } else {
     alert("Invalid credentials");
   }
@@ -306,7 +314,7 @@ btnLoan.addEventListener("click", function (e) {
     // update the UI
     displayUI(currentUser);
   } else {
-    console.log("NO loan ");
+    alert("Wrong info");
   }
 });
 
