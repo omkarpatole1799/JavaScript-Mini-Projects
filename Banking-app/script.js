@@ -90,7 +90,7 @@ const balanceDate = document.querySelector(".balance__date");
 const appMain = document.querySelector(".app");
 const date = new Date();
 
-let currentUser;
+let currentUser, timer;
 
 // state variable
 let isSorted = false;
@@ -262,16 +262,53 @@ const displaySummary = function (account) {
   );
 };
 
+// logout timer
+const logOutTimer = function () {
+  let time = 120;
+
+  let tick = function () {
+    // calculate minute and seconds
+    const minute = Math.trunc(time / 60);
+    const seconds = Math.trunc(time % 60);
+
+    // decrease time in UI
+    labelTimer.textContent = ` ${minute}: ${seconds} `;
+
+    // logout when time is zero
+    if (time === 0) {
+      appMain.classList.add("opacity_zero");
+    }
+    // decrease the time
+    time--;
+  };
+
+  // calling the function first time
+  tick();
+  timer = setInterval(tick, 1000);
+  return timer;
+};
+
+// restart timer
+function restartTimer() {
+  clearInterval(timer);
+  timer = logOutTimer();
+}
+
+// login functionality
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   currentUser = accounts.find((account) => {
     return account.userName === inputLoginUsername.value;
   });
   if (currentUser?.password === Number(inputLoginPin.value)) {
-    console.log("LOGIN");
     appMain.classList.remove("opacity_zero");
     labelWelcome.textContent = `Welcome ${currentUser.owner}`;
+
+    // update UI
     displayUI(currentUser);
+
+    // start logout timer
+    logOutTimer();
 
     labelWelcome.textContent = `Welcome ${currentUser.owner.split(" ")[0]}`;
     balanceDate.textContent = `
@@ -299,7 +336,12 @@ btnTransfer.addEventListener("click", function (e) {
     reciverAccount.movements.push(sendingAmount);
     reciverAccount.movementsDates.push(getCurrentTime());
     currentUser.movementsDates.push(getCurrentTime());
+
+    // update the UI
     displayUI(currentUser);
+
+    // restart the timer
+    restartTimer();
   } else {
     alert("Wrong Info");
   }
@@ -337,14 +379,20 @@ btnLoan.addEventListener("click", function (e) {
       return movement > loanAmount * 0.1;
     })
   ) {
-    // add the loan amount to the movement array of current user
-    currentUser.movements.push(loanAmount);
+    // approving the loan after 3 seconds
+    setTimeout(() => {
+      // add the loan amount to the movement array of current user
+      currentUser.movements.push(loanAmount);
 
-    // also push current time to the momventsDates array
-    currentUser.movementsDates.push(getCurrentTime());
+      // also push current time to the momventsDates array
+      currentUser.movementsDates.push(getCurrentTime());
 
-    // update the UI
-    displayUI(currentUser);
+      // update the UI
+      displayUI(currentUser);
+
+      // restart the timer again
+      restartTimer();
+    }, 3000);
   } else {
     alert("Wrong info");
   }
