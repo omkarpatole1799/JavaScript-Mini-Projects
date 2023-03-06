@@ -5,26 +5,26 @@ const taskContainer = document.querySelector(".taskContainer");
 const submitBtn = document.querySelector('.submit')
 const task_heading = document.getElementById('task_heading')
 const task_description = document.getElementById('task_description')
-// data
-const todoList = [
 
-];
+// data
+const todoList = [];
 
 submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
 
+    // inserting the values in array of objects
     todoList.push({
         "heading": task_heading.value,
         "description": task_description.value
     })
-
-    console.log(displayTodoList(todoList))
+    displayTodoList(todoList)
 })
 
 const displayTodoList = function (todoList) {
     taskContainer.innerHTML = "";
-    todoList.forEach(function (el, i) {
 
+    // loop through each item
+    todoList.forEach(function (el, i) {
         const html = `<div class="card" style="width: 18rem;">
                     <div class="card-body">
                         
@@ -32,7 +32,6 @@ const displayTodoList = function (todoList) {
                         <p class="card-text">Description: ${el.description}</p>
                     </div>
                  </div>`;
-
         taskContainer.insertAdjacentHTML("afterbegin", html);
     });
     return todoList
