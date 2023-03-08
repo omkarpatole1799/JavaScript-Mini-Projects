@@ -2,13 +2,13 @@
 console.log("Hi");
 
 const todoContainer = document.querySelector(".todoContainer");
-const todoSubmit = document.querySelector('.todoSubmitBtn')
-const todoHeading = document.getElementById('task_heading')
-const todoDescription = document.getElementById('task_description')
+const todoSubmit = document.querySelector(".todoSubmitBtn");
+const todoHeading = document.getElementById("task_heading");
+const todoDescription = document.getElementById("task_description");
 
 // data
 const todoListArr = [];
-todoContainer.innerHTML = "Start adding your todo list!"
+todoContainer.innerHTML = "Start adding your todo list!";
 
 // add todo functionality
 todoSubmit.addEventListener("click", function (e) {
@@ -20,17 +20,16 @@ todoSubmit.addEventListener("click", function (e) {
     if (todoHeadingValue !== "" && todoDescriptionValue !== "") {
         // inserting the values in array of objects
         todoListArr.push({
-            "heading": todoHeadingValue,
-            "description": todoDescriptionValue
-        })
+            heading: todoHeadingValue, description: todoDescriptionValue,
+        });
 
-        displayTodoList(todoListArr)
+        displayTodoList(todoListArr);
     } else {
-        alert("Insert information")
+        alert("Insert information");
     }
-    todoHeading.textContent = ''
-    todoDescription.textContent = ''
-})
+    todoHeading.textContent = "";
+    todoDescription.textContent = "";
+});
 
 // display todo
 const displayTodoList = function (todoList) {
@@ -51,14 +50,15 @@ const displayTodoList = function (todoList) {
             todoContainer.insertAdjacentHTML("afterbegin", html);
 
             // complete the task
-            const todoCompleteBtn = document.querySelector('.todoCompleteBtn')
+            const todoCompleteBtn = document.querySelector(".todoCompleteBtn");
             todoCompleteBtn.addEventListener("click", function (e) {
-                e.preventDefault()
-                todoListArr.splice(i, 1)
-                displayTodoList(todoListArr)
-            })
+                e.preventDefault();
+                todoListArr.splice(i, 1);
+                displayTodoList(todoListArr);
+            });
         });
     } else {
-        todoContainer.innerHTML = "Hurray! no task due"
+        todoContainer.innerHTML = "Hurray! no task due";
     }
-}
+};
+
