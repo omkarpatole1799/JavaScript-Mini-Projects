@@ -20,3 +20,9 @@ This repository contains project based on vanilla JavaScript
 ## (Play here : https://drum-kit-01.firebaseapp.com/ )
 
 ![image](https://user-images.githubusercontent.com/56589966/216950758-452d43be-e23c-477c-b9e0-f6f6aa534665.png) 
+
+
+## 4. GUessing Number Game 
+
+![image](https://user-images.githubusercontent.com/56589966/229507425-bfc1e23b-d0a2-4735-b643-ebf72dfb735e.png)
+
