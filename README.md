@@ -55,4 +55,3 @@ This repository contains project based on vanilla JavaScript
 
 ![image](https://user-images.githubusercontent.com/56589966/229507425-bfc1e23b-d0a2-4735-b643-ebf72dfb735e.png)
 
->>>>>>> f4e9e309aca9e49c35d408dc939577cc3e137869
